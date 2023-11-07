@@ -46,22 +46,50 @@ class AuthorController extends AbstractController
 
         return $this->redirectToRoute('app_Affiche'); // Redirigez vers la route 'app_Affiche'
     }
+
     #[Route('/Add', name: 'app_Add')]
-public function Add (Request $request)
-{
-    $author= new Author();
-    $form=$this->createForm(AuthorType::class,$author);
-   $form->add(child: 'Ajouter',type: SubmitType::class);
-    $form->handleRequest($request);
-    if($form->isSubmitted() && $form->isValid())
+    public function Add(Request $request)
     {
-        $em=$this->getDoctrine()->getManager();
-        $em->persist($author);
-        $em->flush();
-        return $this->redirectToRoute( 'app_Affiche' );
+        $author = new Author();
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->add(child: 'Ajouter', type: SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($author);
+            $em->flush();
+            return $this->redirectToRoute('app_Affiche');
+        }
+        return $this->render('author/Add.html.twig', ['f' => $form->createView()]);
+
+
     }
-    return $this->render('author/Add.html.twig', ['f' => $form->createView()]);
+    #[Route('/edit/{id}', name: 'app_edit')]
+    function edit(AuthorRepository $repository, $id,Request $request)
+    {
+        $author = $repository->find($id);
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->add(child: 'Edit', type: SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em = flush();
+            return $this->redirectToRoute("app_Affiche");
 
+        }
+        return $this->render('author/edit.html.twig', ['f' => $form->createView()]);
+    }
+    #[Route('/delete/{id}', name: 'app_delete')]
+    function delete(AuthorRepository $repository, $id, Request $request)
+    {
+        $author = $repository->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($author);
+        $em->flush();
 
-}
+            return $this->redirectToRoute('app_Affiche');
+
+    }
+
 }

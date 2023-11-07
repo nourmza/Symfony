@@ -13,25 +13,18 @@
     <tr>
         <th>Username </th>
         <th>Email</th>
+        <th>edit</th>
+        <th>delete</th>
     </tr>
         <tr>
     <tr> {% for a in author %}</tr>
-            <td>{{ a.username }} </td>
-            <td> {{ a.email }}</td>
-            {% endfor %}
-        </tr>
+    <tr>
+        <td>{{ a.username }}</td>
+        <td>{{ a.email }}</td>
+        <td><a href="{{ path('app_edit', {'id': a.id}) }}">Edit</a></td>
+        <td><a href="{{ path('app_delete', {'id': a.id}) }}">Delete</a></td>
+    </tr>
+    {% endfor %}
 </table>
-</body>
-</html>
-
-
-
-
-
-
-    </table>
-
-
-
 </body>
 </html>
