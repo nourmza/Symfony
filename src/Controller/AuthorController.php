@@ -1,13 +1,16 @@
 <?php
 namespace App\Controller;
 use App\Entity\Author;
+use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Form;use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation;
 
 
 class AuthorController extends AbstractController
@@ -43,5 +46,22 @@ class AuthorController extends AbstractController
 
         return $this->redirectToRoute('app_Affiche'); // Redirigez vers la route 'app_Affiche'
     }
+    #[Route('/Add', name: 'app_Add')]
+public function Add (Request $request)
+{
+    $author= new Author();
+    $form=$this->createForm(AuthorType::class,$author);
+   $form->add(child: 'Ajouter',type: SubmitType::class);
+    $form->handleRequest($request);
+    if($form->isSubmitted() && $form->isValid())
+    {
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($author);
+        $em->flush();
+        return $this->redirectToRoute( 'app_Affiche' );
+    }
+    return $this->render('author/Add.html.twig', ['f' => $form->createView()]);
 
+
+}
 }
