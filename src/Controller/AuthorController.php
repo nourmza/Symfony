@@ -4,10 +4,11 @@ use App\Entity\Author;
 use App\Repository\AuthorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+
 
 class AuthorController extends AbstractController
 {
@@ -34,7 +35,7 @@ class AuthorController extends AbstractController
         // Créez une instance de l'entité Author
         $author1 = new Author();
         $author1->setUsername("nour"); // Utilisez "setUsername" pour définir le nom d'utilisateur
-        $author1->setEmail("5obzty@gmail.com"); // Utilisez "setEmail" pour définir l'email
+        $author1->setEmail("nour@gmail.com"); // Utilisez "setEmail" pour définir l'email
 
         // Enregistrez l'entité dans la base de données
         $entityManager->persist($author1);
