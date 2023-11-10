@@ -74,7 +74,7 @@ class AuthorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $em = $this->getDoctrine()->getManager();
-            $em = flush();
+            $em->flush();
             return $this->redirectToRoute("app_Affiche");
 
         }
