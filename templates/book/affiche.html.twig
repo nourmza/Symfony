@@ -15,20 +15,28 @@
         <th>Category</th>
         <th>Publication date</th>
         <th>Published</th>
+        <th>author_id</th>
+
     </tr>
     <tr>
-    <tr> {% for b in book %}</tr>
+    <tr> {% for b in publishedBooks %}</tr>
     <tr>
         <td>{{ b.title }}</td>
         <td>{{ b.category }}</td>
-        <td>{{ b.publicationDate}}</td>
+        <td>{{ b.publicationDate|date('Y-m-d')}}</td>
         <td>{{ b.published }}</td>
-        <td>{{ b.author}}</td>
+        <td>{{ b.author_id}}</td>
+        <td>{{ b.author.username}}</td>
 
-        <td><a href="{{ path('app_edit', {'id': a.id}) }}">Edit</a></td>
-        <td><a href="{{ path('app_delete', {'id': a.id}) }}">Delete</a></td>
+        <td><a href="{{ path('app_editBook', {'ref': b.ref}) }}">Edit</a></td>
+        <td><a href="{{ path('app_deleteBook', {'id': b.ref}) }}">Delete</a></td>
+        //ajouter lien show
+        <td><a href="{{ path('app_detailBook', {'id': b.ref}) }}">Detail</a></td>
+
     </tr>
     {% endfor %}
+    <p>Number of published books : {{ numPublishedBooks }}</p>
+    <p>Number of unpublished books : {{ numUnpublishedBooks }}</p>
 </table>
 </body>
 </html>
